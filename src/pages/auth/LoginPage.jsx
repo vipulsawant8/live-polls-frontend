@@ -1,0 +1,67 @@
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Card, CardBody, CardTitle, Col, Container, Row, CardHeader, CardFooter } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+
+import { LoginForm } from "@/components/auth";
+import { loginUser } from "@/app/features/auth/authSlice.js";
+
+
+const LoginPage = () => {
+
+	const formRef = useRef();
+	const { loading, user } = useSelector((state) => state.auth);
+	
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const handleLogin = async (data) => {
+		try {
+			
+			await dispatch(loginUser(data)).unwrap();
+			formRef.current.resetForm();
+
+			navigate('/polls', { replace: true });
+		} catch (error) {
+			window.alert(error || "Login failed. Please check your credentials and try again.");
+		}
+	};
+
+	const handleError = (errors) => {
+
+		console.log("Login Form errors :", errors);
+	};
+
+	useEffect(() => {
+		if (user) {
+			navigate('/polls', { replace: true });
+		}}, [user, navigate]);
+
+	return (
+		<Container className="py-4">
+			<Row className="justify-content-center">
+				<Col xs={12} sm={10} md={6} lg={4}>
+					<Card className="p-3 shadow-sm">
+						<CardBody>
+							{/* <CardHeader> */}
+								<CardTitle className="text-center h1"> <h1> Login Page </h1> </CardTitle>
+							{/* </CardHeader> */}
+							{/* <CardFooter> */}
+								<LoginForm 
+									ref={formRef}
+									onSubmit={handleLogin}
+									onError={handleError}
+									loading={loading}
+								/>
+								<div className="mt-4"> New user? click <Link to={'/register'}> here </Link> to register.</div>
+							{/* </CardFooter> */}
+						</CardBody>
+					</Card>
+				</Col>
+			</Row>
+		</Container>
+	);
+};
+
+export default LoginPage;

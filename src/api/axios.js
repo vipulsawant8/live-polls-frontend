@@ -1,0 +1,84 @@
+import axios from "axios";
+import { triggerLogout } from "@/app/logoutHandler.js";
+
+const API = axios.create({
+	
+	baseURL: import.meta.env.VITE_API_URL,
+	withCredentials: true,
+	headers: {
+		"Content-Type": "application/json",
+		Accept: "application/json"
+	}
+});
+
+API.interceptors.request.use((config) => {
+
+	if (import.meta.env.DEV) {
+		
+		console.info("API Request :", {
+			url: config.url,
+			method: config.method,
+			data: config.data,
+			params: config.params
+		});
+
+	}
+	return config;
+
+}, (error) => {
+	return Promise.reject(error);
+});
+
+API.interceptors.response.use(res => {
+	
+	if (import.meta.env.DEV) {
+		
+		console.info("API Response :", {
+			url: res.config.url,
+			status: res.status,
+		});
+
+	}
+	return res;
+
+}, async (error) => {
+	
+	const original = error.config;
+
+	console.error("API Error :", {
+		url: original?.url,
+		method: original?.method,
+		status: error.response?.status,	
+		data: error.response?.data,
+	});
+
+	const skipRefreshUrls = ['/auth/login', '/auth/register', '/auth/refresh-token', '/auth/logout'];
+
+	const isSkipRefresh = skipRefreshUrls.some(url => original.url.includes(url));
+	
+	if (isSkipRefresh) {
+
+		return Promise.reject(error);
+	}
+
+	if (error.response?.status === 401 && !original.retry) {
+		
+		original.retry = true;
+
+		try {
+			
+			await API.get('/auth/refresh-token');
+
+			return API(original);
+		} catch (refreshError) {
+	
+			triggerLogout();
+			console.error("Token refresh failed. Redirecting to login.", refreshError);
+			return Promise.reject(refreshError);
+		}
+	}
+
+	return Promise.reject(error);
+});
+
+export default API;

@@ -1,0 +1,22 @@
+:root {
+  /* Primary brand color */
+  --bs-primary: #3b82f6;
+  --bs-primary-rgb: 59, 130, 246;
+
+  /* Backgrounds */
+  --bs-body-bg: #f2f2f7;
+  --bs-tertiary-bg: #ffffff;
+
+  /* Borders */
+  --bs-border-color: #dee2e6;
+
+  /* Text */
+  --bs-body-color: #212529;
+}
+
+.card {
+  transition: 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
