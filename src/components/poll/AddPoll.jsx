@@ -1,14 +1,14 @@
 import * as yup from "yup";
-import { Row, Col, Card, CardBody, CardTitle } from "react-bootstrap";
+import { Card, CardBody, CardTitle, Modal, ModalHeader, ModalTitle, ModalBody } from "react-bootstrap";
 import CustomForm from "../form/CustomForm.jsx";
 import { useDispatch } from "react-redux";
 import { createPoll } from "../../app/features/poll/pollSlice.js";
-import { useRef } from "react";
+// import { useRef } from "react";
 import notify from "../../utils/notify.js";
 
-const AddPoll = () => {
+const AddPoll = ({ show, onHide, ref }) => {
 
-	const addPollRef = useRef();
+	// const addPollRef = useRef();
 	const dispatch = useDispatch();
 
 	const fields = [
@@ -42,7 +42,9 @@ const AddPoll = () => {
 			const options = data.options.split("\n").map(s => s.trim()).filter(Boolean);
 			const poll = await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
 			notify.success(poll.message);
-			addPollRef.current.resetForm();
+			// addPollRef.current.resetForm();
+			ref.current.resetForm();
+			onHide();
 		} catch (error) {
 
 			console.log("error :", error);
@@ -54,17 +56,19 @@ const AddPoll = () => {
 		console.log("errors :", errs);
 	}
 
-	return (
-		<Row className="justify-content-start mb-2">
-			<Col xs={12} sm={10} md={8} lg={6}>
-				<Card className="p-3 border-0">
-					<CardBody>
-						<CardTitle className="h4"> <h4> Create Poll </h4> </CardTitle>
-						<CustomForm ref={addPollRef} fields={fields} defaultValues={{title: '', options: ''}} validationSchema={schema} onSubmit={handleCreate} submitLabel="Create Poll" name="AddPoll" onError={handleError} />
-					</CardBody>
-				</Card>
-			</Col>
-		</Row>
+	return (<Modal show={show} onHide={onHide} centered backdrop="static" keyboard={false}>
+		<ModalHeader closeButton>
+			<ModalTitle>Create Poll</ModalTitle>
+		</ModalHeader>
+
+		<ModalBody style={{ backgroundColor: "#f8f9fa" }}>
+			<Card className="mt-4 p-3" style={{ backgroundColor: "inherit", border: "none" }}>
+				<CardBody>
+					<CustomForm ref={ref} fields={fields} validationSchema={schema} onSubmit={handleCreate} onError={handleError} defaultValues={{ title: "", options: "" }} submitLabel="Create-Poll" name="AddPoll" />
+				</CardBody>
+			</Card>
+		</ModalBody>
+	</Modal>
 	);
 };
 

@@ -1,15 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPolls, selectAllPolls } from "../../app/features/poll/pollSlice.js";
+import { fetchPolls, selectAllPolls } from "@/app/features/poll/pollSlice.js";
 import { Link } from "react-router";
-import { Card, CardBody, Row, Col, CardTitle, Container } from "react-bootstrap";
+import { Card, CardBody, Row, Col, CardTitle, Container, Button } from "react-bootstrap";
 
-import AddPoll from "../../components/poll/AddPoll.jsx";
+import AddPoll from "@/components/poll/AddPoll.jsx";
 
 const PollsListPage = () => {
 
+	const pollRef = useRef();
 	const dispatch = useDispatch();
 	const polls = useSelector(selectAllPolls);
+	const [adding, setAdding] = useState(false);
+
+	const onHide = () => {
+
+		setAdding(false);
+	};
 
 	useEffect(() => {
 
@@ -18,8 +25,13 @@ const PollsListPage = () => {
 
 	return (
 		<Container className="p-4">
+			<Row>
+				<Col className="d-flex justify-content-end">
+					<Button onClick={()=> setAdding(true)}> Add Poll </Button>
+				</Col>
+			</Row>
 			
-			<AddPoll />
+			<AddPoll ref={pollRef} onHide={onHide} show={adding}  />
 			
 			<h3 className="mb-3">
 				Live Polls

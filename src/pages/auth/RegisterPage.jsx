@@ -45,10 +45,10 @@ const RegisterPage = () => {
 				<Col xs={12} sm={10} md={6} lg={4}>
 					<Card className="p-3 shadow-sm">
 						<CardBody>
-							<CardHeader>
+							{/* <CardHeader> */}
 								<CardTitle className="text-center h1"> <h1> Register Page </h1> </CardTitle>
-							</CardHeader>
-							<CardFooter>
+							{/* </CardHeader> */}
+							{/* <CardFooter> */}
 								
 								<RegisterForm 
 									ref={formRef}
@@ -57,7 +57,7 @@ const RegisterPage = () => {
 									onError={handleError}
 									/>
 								<div className="mt-4"> Already user? click <Link to={'/login'}> here </Link> to login.</div>
-							</CardFooter>
+							{/* </CardFooter> */}
 						</CardBody>
 					</Card>
 				</Col>

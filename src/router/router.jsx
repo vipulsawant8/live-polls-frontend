@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 import AppLayout from "@/layout/AppLayout.jsx";
-import AuthLayout from "../layout/AuthLayout.jsx";
+import AuthLayout from "@/layout/AuthLayout.jsx";
 
 import PageLoader from "@/components/common/PageLoader.jsx";
 
@@ -14,7 +14,7 @@ const SinglePollPage = lazy(() => import("@/pages/polls/SinglePollPage.jsx"));
 
 import NotFound from "@/pages/NotFound.jsx";
 
-import NavbarComponent from "../components/navbar/NavbarComponent.jsx";
+import NavbarComponent from "@/components/navbar/NavbarComponent.jsx";
 
 const router = createBrowserRouter([
 	{

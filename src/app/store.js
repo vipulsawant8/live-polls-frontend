@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "@/app/features/auth/authSlice.js";
-import pollReducer from "../app/features/poll/pollSlice.js";
+import pollReducer from "@/app/features/poll/pollSlice.js";
 
 import errorMiddleware from "@/middleware/errorMiddleware.js";
 import { createLogger } from "redux-logger";

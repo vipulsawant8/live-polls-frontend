@@ -7,7 +7,7 @@ import { setLogoutHandler } from "@/app/logoutHandler";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "@/app/features/auth/authSlice";
 import { ToastContainer } from "react-toastify";
-import SocketProvider from "./socket/SocketProvider";
+import SocketProvider from "@/socket/SocketProvider";
 
 function App() {
 	
