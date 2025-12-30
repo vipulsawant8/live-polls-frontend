@@ -25,7 +25,8 @@ const authSlice = createSlice({
 
 		user: null,
 		loading: true,
-		error: null
+		error: null,
+		isAuthenticated: false,
 	},
 	reducers: {
 
@@ -35,13 +36,14 @@ const authSlice = createSlice({
 		builder
 		.addCase(getMe.pending, (state) => {
 
-			state.loading = true;
+			state.loading = false;
 			state.error = null;
 		})
 		.addCase(getMe.fulfilled, (state, action) => {
 
 			state.loading = false;
 			const user = action.payload.data;
+			state.isAuthenticated = true;
 			state.user = user;
 			state.error = null;
 		})
@@ -75,6 +77,7 @@ const authSlice = createSlice({
 			state.loading = false;
 
 			const user = action.payload.data;
+			state.isAuthenticated = true;
 			state.user = user;
 			state.error = null;
 		})
@@ -100,5 +103,4 @@ const authSlice = createSlice({
 	}
 });
 
-// export { getMe, registerUser, loginUser, logoutUser };
 export default authSlice.reducer;

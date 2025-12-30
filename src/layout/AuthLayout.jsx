@@ -3,11 +3,11 @@ import { Navigate, Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   
-	const { user, loading } = useSelector(state => state.auth);
+	const { isAuthenticated, loading } = useSelector(state => state.auth);
 
 	if (loading) return null;	
 
-	if (!user) return <Navigate to={'/login'} replace />;
+	if (!isAuthenticated) return <Navigate to={'/login'} replace />;
 
 	return <Outlet />;
 }

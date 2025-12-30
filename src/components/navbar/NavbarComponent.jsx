@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 
 const NavbarComponent = () => {
 
-	const user = useSelector(state => state.auth.user);
-
-	if (!user) return;
+	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
 	<Navbar bg="dark" variant="dark" expand="lg" className="mb-3 shadow-sm">
@@ -16,7 +14,7 @@ const NavbarComponent = () => {
 			<Navbar.Toggle aria-controls="main-navbar" />
 				<Navbar.Collapse id="main-navbar">
 					<Nav  className="ms-lg-auto">
-						<Nav.Item> <LogoutButton /> </Nav.Item>
+						<Nav.Item> { isAuthenticated ? <LogoutButton /> : <></> }  </Nav.Item>
 					</Nav>
 				</Navbar.Collapse>
 		</Container>

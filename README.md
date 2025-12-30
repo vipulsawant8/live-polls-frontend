@@ -1,140 +1,249 @@
-![Vercel](https://vercelbadge.vercel.app/api/vipulsawant8/kanban-board-task-management-app-frontend)
-![CI](https://github.com/vipulsawant8/live-real-time-poll-app-frontend/vercel-deploy.yml/badge.svg)
+# Polling App — Frontend (React + Redux + Socket.IO)
 
-# Live Poll App — Frontend
+[![Vercel](https://img.shields.io/badge/vercel-deployed-success?logo=vercel&logoColor=white)](https://live-polls-front-end.vercel.app)
+![License](https://img.shields.io/github/license/vipulsawant8/live-polls-frontend)
+![React](https://img.shields.io/badge/react-19.x-blue)
+![Redux Toolkit](https://img.shields.io/badge/redux-toolkit-purple)
+![Socket.IO](https://img.shields.io/badge/socket.io-realtime-black)
+![Vite](https://img.shields.io/badge/vite-build-646CFF)
 
-A clean and modular **live polling frontend** built with React, Redux Toolkit, Socket.IO, and Vite.  
-Designed to demonstrate real-world frontend architecture including authentication,
-real-time updates, reusable form systems, and scalable state management.
+**Live App:** https://live-polls-front-end.vercel.app
 
-> This repository contains the **frontend only**.  
-> It communicates with a backend via REST APIs and Socket.IO.
+Frontend for a Polling / Voting application, built with React, Redux Toolkit, and Socket.IO.
 
----
+This application demonstrates authentication-aware UI, real-time updates, and layout-based route protection, integrating with a separately deployed backend API.
+
+## Architecture Overview
+
+The frontend is designed to stay UI-focused, with security and session handling delegated to the backend.
+
+Key responsibilities:
+
+- Rendering authenticated and public views
+
+- Managing global UI state using Redux Toolkit
+
+- Coordinating API calls and socket events
+
+- Handling real-time vote updates via WebSockets
+
+- Handling session expiry and forced logout gracefully
+
+Authentication secrets are never stored on the client.
+
+## Authentication & Session Handling
+
+This frontend uses a cookie-based session model provided by the backend.
+
+### Key characteristics
+
+- Tokens are stored in HTTP-only cookies (server-managed)
+
+- Redux stores user identity and auth state only
+
+- No access or refresh tokens are stored in localStorage or Redux
+
+### Session lifecycle
+
+1. On app load, auth state is restored via /auth/me
+
+2. Protected routes are guarded using layout-based access control
+
+3. Axios interceptors automatically retry requests after token refresh
+
+4. If refresh fails, the user is logged out globally
+
+## Real-Time Poll Updates
+
+This application uses Socket.IO for real-time behavior.
+
+- Users receive live vote updates without refreshing
+
+- Poll results update instantly across connected clients
+
+- Socket logic is isolated in a dedicated socket/ module
+
+- Socket lifecycle is managed using a SocketProvider
+
+This allows stateless REST APIs to coexist with real-time UI updates.
+
+## Routing & Access Control
+
+Routing is layout-driven, not page-driven.
+
+```bash
+/login, /register
+ └── PublicLayout
+
+/polls
+ └── AuthLayout (protected)
+     └── PollsListPage
+	 └── SinglePollPage
+```
+
+## Design decisions
+
+- Public and authenticated routes are structurally separated
+
+- Auth checks live in layouts, not inside pages
+
+- Pages remain focused on rendering and interaction logic
+
+- Route-level lazy loading improves performance
 
 ## Features
 
-### Polls
-- Create new polls
-- View active polls
-- View individual poll details
-- Live poll updates using WebSockets
-- Optimistic UI updates with server sync
+- Login / register / logout flow
 
-### Authentication
-- User registration and login
-- Auto session restoration on refresh
-- Protected routes
-- Centralized logout handling
-- Graceful auth error handling
+- Protected routes using layout guards
 
-> Authentication is handled via **HTTP-only cookies** by the backend.  
-> No tokens are stored in `localStorage`.
+- Create and view polls
 
-### Reusable Form System
-- Dynamic form rendering
-- `react-hook-form` integration
-- Custom input components (text, textarea, checkbox, select, file)
-- Resettable and extensible form architecture
+- Cast votes on polls
 
-### Real-Time Communication
-- Socket.IO integration via context provider
-- Centralized socket lifecycle management
-- Event-based emitters and receivers
+- Real-time vote count updates
 
----
+- Centralized toast notifications
 
-## Tech Stack
-- React + Vite
-- Redux Toolkit
-- React Router v6
-- Socket.IO Client
-- Axios
-- React-Bootstrap
-- `react-hook-form`
+- Reusable form system
 
----
+## Demo Environment (For Reviewers)
 
-## Folder Structure
-```
+To simplify evaluation:
+
+- Demo accounts may be used for testing
+
+- All boards, lists, and tasks are fictional
+
+- No real user or production data is stored
+
+- Demo data may reset periodically
+
+This environment exists only for UI and UX evaluation.
+
+A demo account is provided:
+
+- **Email:** demo.user@polls.test
+
+- **Password:** Demo@1234
+
+⚠️ Important
+
+- All notes are fictional
+
+- Demo data uses fictional characters and placeholders
+
+- No real user data is stored or displayed
+
+- Demo environment may reset periodically
+
+Demo credentials are provided only for UI and UX evaluation.
+
+## Project Structure
+
+```bash
 src
 ├── api
 │   └── axios.js
 ├── app
 │   ├── features
 │   │   ├── auth
+│   │   │   └── authSlice.js
 │   │   └── poll
+│   │       └── pollSlice.js
 │   ├── logoutHandler.js
 │   └── store.js
+├── App.css
+├── App.jsx
+├── assets
+│   ├── polling.png
+│   └── react.svg
 ├── components
 │   ├── auth
-│   ├── poll
-│   ├── form
+│   │   ├── AuthInitializer.jsx
+│   │   ├── index.js
+│   │   ├── LoginForm.jsx
+│   │   ├── LogoutButton.jsx
+│   │   └── RegisterForm.jsx
 │   ├── common
-│   └── navbar
+│   │   └── PageLoader.jsx
+│   ├── form
+│   │   ├── CustomForm.jsx
+│   │   ├── index.js
+│   │   ├── InputCheckbox.jsx
+│   │   ├── InputFile.jsx
+│   │   ├── InputSelect.jsx
+│   │   ├── InputText.jsx
+│   │   ├── InputTextarea.jsx
+│   │   └── SubmitButton.jsx
+│   ├── navbar
+│   │   └── NavbarComponent.jsx
+│   └── poll
+│       └── AddPoll.jsx
+├── index.css
 ├── layout
+│   ├── AppLayout.jsx
+│   ├── AuthLayout.jsx
+│   └── PublicLayout.jsx
+├── main.jsx
 ├── middleware
+│   └── errorMiddleware.js
 ├── pages
 │   ├── auth
+│   │   ├── LoginPage.jsx
+│   │   └── RegisterPage.jsx
+│   ├── NotFound.jsx
 │   └── polls
+│       ├── PollsListPage.jsx
+│       └── SinglePollPage.jsx
 ├── router
+│   └── router.jsx
 ├── socket
-│   ├── socket.js
-│   ├── events.js
 │   ├── emitters.js
+│   ├── events.js
 │   ├── receivers.js
+│   ├── socket.js
 │   └── SocketProvider.jsx
 └── utils
+    ├── asyncThunkWrapper.js
+    └── notify.js
+
 ```
 
----
+## Environment Configuration
 
-## Authentication Flow
-1. App loads → auth state initialized
-2. Session restored via backend cookie
-3. Unauthorized requests handled globally
-4. Logout clears client state and redirects
-
----
-
-## Real-Time Flow (Socket.IO)
-1. Socket initialized via `SocketProvider`
-2. Events registered centrally
-3. Poll updates pushed from server
-4. Redux store updated in real time
-
----
-
-## Key Architecture Decisions
-- Feature-based folder structure for scalability
-- Centralized Axios instance and error handling
-- Socket logic isolated from UI components
-- Reusable form abstraction for rapid feature development
-- Clear separation of REST and WebSocket concerns
-
----
-
-## Setup
+Create a local environment file:
 
 ```bash
-npm install
 cp .env.example .env
-npm run dev
 ```
 
----
+### Required variable:
 
-## Environment Variables
+- VITE_API_URL — backend API base URL
+- VITE_SOCKET_URL - backend socket base URL
 
-```env
-VITE_API_URL=http://localhost:4000
-```
+No secrets are stored in the frontend.
 
-> `.env` is ignored by Git. Do not commit it.
+## Backend Integration
 
----
+This frontend communicates with a separately deployed backend API.
 
-## Notes for Reviewers
+- Backend Repository: https://github.com/vipulsawant8/live-polls-backend
 
-This project is built strictly for demonstration and interview purposes.  
-All data is mock or test data. No real user information is stored.
+- Backend Deployment: Render
+
+- Auth Strategy: Cookie-based sessions with automatic refresh
+
+- Socket.IO is used for real-time vote updates
+
+- Backend handles authentication and poll persistence
+
+## License
+
+This project is licensed under the MIT License.
+
+## Final note
+
+This frontend is designed for portfolio demonstration and technical evaluation.
+It is not intended for real user data or production use.

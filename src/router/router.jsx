@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 import AppLayout from "@/layout/AppLayout.jsx";
+import PublicLayout from "@/layout/PublicLayout.jsx";
 import AuthLayout from "@/layout/AuthLayout.jsx";
 
 import PageLoader from "@/components/common/PageLoader.jsx";
@@ -14,46 +15,45 @@ const SinglePollPage = lazy(() => import("@/pages/polls/SinglePollPage.jsx"));
 
 import NotFound from "@/pages/NotFound.jsx";
 
-import NavbarComponent from "@/components/navbar/NavbarComponent.jsx";
-
 const router = createBrowserRouter([
 	{
 		path: '/',
+		element: <AppLayout />,
 		children: [
 			{
 				index: true,
-				element: <Navigate to={'/login'} replace />
+				element: <Suspense fallback={<PageLoader />}> <LoginPage /> </Suspense>
 			},
 			{
-				element:<> <NavbarComponent /> <AppLayout /> </>,
+				element: <PublicLayout />,
 				children: [
 					{
 						path: "login",
-						element: <Suspense fallback={<PageLoader />}><LoginPage /></Suspense>
+						element: <Suspense fallback={<PageLoader />}> <LoginPage /> </Suspense>
 					},
 					{
 						path: "register",
-						element: <Suspense fallback={<PageLoader />}><RegisterPage /></Suspense>
-					},
-					{
-						path: '*',
-						element: <NotFound />
+						element: <Suspense fallback={<PageLoader />}> <RegisterPage /> </Suspense>
 					}
 				]
 			},
 			{
-				element: <> <NavbarComponent /> <AuthLayout /> </>,
+				element: <AuthLayout />,
 				children: [
 					{
 						path: 'polls',
 						element: <Suspense fallback={<PageLoader />}> <PollListPage /> </Suspense>
 					},
 					{
-						path: "polls/:id",
+						path: 'polls/:id',
 						element: <Suspense fallback={<PageLoader />}> <SinglePollPage /> </Suspense>
 					}
 				]
 			},
+			{
+				path: '*',
+				element: <NotFound />
+			}
 		]
 	}
 ]);

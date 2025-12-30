@@ -7,13 +7,13 @@ import { registerPollReceivers, unregisteredPollReceivers } from "./receivers.js
 
 const SocketProvider = () => {
 
-	const user = useSelector(state => state.auth.user);
+	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 	
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 
-		if (!user) return;
+		if (!isAuthenticated) return;
 
 		initSocket();
 
@@ -25,7 +25,7 @@ const SocketProvider = () => {
 			
 			unregisteredPollReceivers(socket);
 		};
-	}, [user]);
+	}, [isAuthenticated]);
 	return null;
 }
 

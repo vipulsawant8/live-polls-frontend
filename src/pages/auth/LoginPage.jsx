@@ -11,7 +11,7 @@ import { loginUser } from "@/app/features/auth/authSlice.js";
 const LoginPage = () => {
 
 	const formRef = useRef();
-	const { loading, user } = useSelector((state) => state.auth);
+	const { loading, isAuthenticated } = useSelector((state) => state.auth);
 	
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -34,9 +34,9 @@ const LoginPage = () => {
 	};
 
 	useEffect(() => {
-		if (user) {
+		if (isAuthenticated) {
 			navigate('/polls', { replace: true });
-		}}, [user, navigate]);
+		}}, [isAuthenticated, navigate]);
 
 	return (
 		<Container className="py-4">
