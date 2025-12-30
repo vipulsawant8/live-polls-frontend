@@ -7,6 +7,8 @@ const NavbarComponent = () => {
 
 	const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
+	if (!isAuthenticated) return;
+
   return (
 	<Navbar bg="dark" variant="dark" expand="lg" className="mb-3 shadow-sm">
 		<Container fluid>
@@ -14,7 +16,7 @@ const NavbarComponent = () => {
 			<Navbar.Toggle aria-controls="main-navbar" />
 				<Navbar.Collapse id="main-navbar">
 					<Nav  className="ms-lg-auto">
-						<Nav.Item> { isAuthenticated ? <LogoutButton /> : <></> }  </Nav.Item>
+						<Nav.Item> <LogoutButton /> </Nav.Item>
 					</Nav>
 				</Navbar.Collapse>
 		</Container>
