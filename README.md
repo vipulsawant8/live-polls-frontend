@@ -1,4 +1,4 @@
-# Polling App — Frontend (React + Redux + Socket.IO)
+# Live Polls — Frontend (React + Redux + Socket.IO)
 
 [![Vercel](https://img.shields.io/badge/vercel-deployed-success?logo=vercel&logoColor=white)](https://live-polls-front-end.vercel.app)
 ![License](https://img.shields.io/github/license/vipulsawant8/live-polls-frontend)
