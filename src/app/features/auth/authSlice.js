@@ -24,7 +24,7 @@ const authSlice = createSlice({
 	initialState: {
 
 		user: null,
-		loading: true,
+		loading: false,
 		error: null,
 		isAuthenticated: false,
 	},
@@ -94,11 +94,13 @@ const authSlice = createSlice({
 
 			state.user = null;
 			state.error = null;
+			state.isAuthenticated = false;
 		})
 		.addCase(logoutUser.rejected, (state, action) => {
 
 			state.user = null;
 			state.error = null;
+			state.isAuthenticated = false;
 		})
 	}
 });

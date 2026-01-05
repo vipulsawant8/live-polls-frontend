@@ -1,6 +1,6 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import asyncThunkWraper from "../../../utils/asyncThunkWrapper.js";
-import API from "../../../api/axios.js";
+import asyncThunkWraper from "@/utils/asyncThunkWrapper.js";
+import API from "@/api/axios.js";
 
 const pollAdapter = createEntityAdapter({
 	selectId: poll => poll._id,
@@ -23,7 +23,7 @@ const closePoll = createAsyncThunk('polls/closePoll', (id, thunkAPI) => asyncThu
 const pollSlice = createSlice({
 	name: "polls",
 	initialState: pollAdapter.getInitialState({
-		loading: true,
+		loading: false,
 		error: null,
 		selectedPoll: null,
 		message: null,

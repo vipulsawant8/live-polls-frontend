@@ -1,9 +1,12 @@
 import { toast } from "react-toastify";
+import { toastConfig } from "@/config/toast.config.js";
 
 const notify = {
-	success: msg => toast.success(msg),
-	error: msg => toast.error(msg),
-	info: msg => toast.info(msg)
+
+	info: (msg, opts={}) => toast.info(msg, { ...toastConfig, ...opts }),
+	success: (msg, opts={}) => toast.success(msg, { ...toastConfig, ...opts }),
+	error: (msg, opts={}) => toast.error(msg, { ...toastConfig, ...opts }),
+	warn: (msg, opts={}) => toast.warn(msg, { ...toastConfig, ...opts })
 };
 
 export default notify;

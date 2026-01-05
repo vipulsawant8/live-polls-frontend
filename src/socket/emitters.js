@@ -1,5 +1,5 @@
-import POLL_EVENTS from "./events.js";
-import { getSocket } from "./socket.js";
+import POLL_EVENTS from "@/socket/events.js";
+import { getSocket } from "@/socket/socket.js";
 
 const emitJoinPoll = (pollID) => {
 

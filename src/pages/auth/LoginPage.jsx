@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoginForm } from "@/components/auth";
 import { loginUser } from "@/app/features/auth/authSlice.js";
 
+import notify from "@/utils/notify.js";
 
 const LoginPage = () => {
 
@@ -20,11 +21,14 @@ const LoginPage = () => {
 		try {
 			
 			await dispatch(loginUser(data)).unwrap();
-			formRef.current.resetForm();
+			
+			notify.success("Login Successful");
 
-			navigate('/polls', { replace: true });
+			formRef.current.resetForm();
 		} catch (error) {
-			window.alert(error || "Login failed. Please check your credentials and try again.");
+
+			const msg = error || "Login failed. Please check your credentials and try again.";
+			notify.error(msg);
 		}
 	};
 

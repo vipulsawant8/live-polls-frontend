@@ -1,14 +1,13 @@
 import * as yup from "yup";
-import { Card, CardBody, CardTitle, Modal, ModalHeader, ModalTitle, ModalBody } from "react-bootstrap";
-import CustomForm from "../form/CustomForm.jsx";
+import { Card, CardBody, Modal, ModalHeader, ModalTitle, ModalBody } from "react-bootstrap";
+import CustomForm from "@/components/form/CustomForm.jsx";
 import { useDispatch } from "react-redux";
-import { createPoll } from "../../app/features/poll/pollSlice.js";
-// import { useRef } from "react";
-import notify from "../../utils/notify.js";
+import { createPoll } from "@/app/features/poll/pollSlice.js";
+
+import notify from "@/utils/notify.js";
 
 const AddPoll = ({ show, onHide, ref }) => {
-
-	// const addPollRef = useRef();
+	
 	const dispatch = useDispatch();
 
 	const fields = [
@@ -39,10 +38,10 @@ const AddPoll = ({ show, onHide, ref }) => {
 	const handleCreate = async (data) => {
 
 		try {
+
 			const options = data.options.split("\n").map(s => s.trim()).filter(Boolean);
-			const poll = await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
-			notify.success(poll.message);
-			// addPollRef.current.resetForm();
+			await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
+			notify.success(`Poll titled ${data.title} added`);
 			ref.current.resetForm();
 			onHide();
 		} catch (error) {

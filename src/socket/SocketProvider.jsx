@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getSocket, initSocket } from "./socket.js";
+import { getSocket, initSocket } from "@/socket/socket.js";
 
-import { registerPollReceivers, unregisteredPollReceivers } from "./receivers.js";
+import { registerPollReceivers, unregisteredPollReceivers } from "@/socket/receivers.js";
 
 const SocketProvider = () => {
 

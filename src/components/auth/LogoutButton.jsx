@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "@/app/features/auth/authSlice.js";
 import { Button } from "react-bootstrap";
 
+import notify from "@/utils/notify.js";
+
 const LogoutButton = () => {
 
 	const dispatch = useDispatch();
@@ -10,10 +12,12 @@ const LogoutButton = () => {
 
 		try {
 			
-			const logout = await dispatch(logoutUser()).unwrap();
+			await dispatch(logoutUser()).unwrap();
+			notify.success("Logout successfull");
 		} catch (error) {
 			
-			window.alert(error || "Logout failed. Please try again.");
+			const msg = error || "Logout failed. Please try again.";
+			notify.error(msg);
 		}
 	};
 

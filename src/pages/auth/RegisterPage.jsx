@@ -7,6 +7,7 @@ import { registerUser, loginUser } from "@/app/features/auth/authSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useRef } from "react";
+import notify from "@/utils/notify.js";
 
 const RegisterPage = () => {
 
@@ -19,10 +20,10 @@ const RegisterPage = () => {
 		
 		try {
 			await dispatch(registerUser(data)).unwrap();
+			
+			notify.success("Registered successfully now logging you in");
 
 			const payload = { identity: data.email, password: data.password };
-
-			window.alert("Registration successful! Logging you in...");
 
 			await dispatch(loginUser(payload)).unwrap();
 
@@ -30,8 +31,9 @@ const RegisterPage = () => {
 
 			navigate('/polls', { replace: true });
 		} catch (error) {
-			
-			window.alert(error || "Registration failed. Please try again.");
+				
+				const msg = error || "Registration Failed";
+				notify.error(msg);
 		}
 	};
 
