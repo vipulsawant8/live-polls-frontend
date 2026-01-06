@@ -78,12 +78,12 @@ const SinglePollPage = () => {
 							<Stack
 								direction="horizontal"
 								gap={3}
-								className="flex-wrap justify-content-between">
-								<div className="flex-grow-1 text-break">
+								className="flex justify-content-between">
+								<div className="flex-grow text-break min-w-0">
 									{opt.text}
 								</div>
 
-								<Stack direction="horizontal" gap={2}>
+								<Stack direction="horizontal" gap={2} className="flex-shrink-0">
 									<strong>{opt.votes}</strong>
 									
 									<Button

@@ -44,13 +44,16 @@ API.interceptors.response.use(res => {
 }, async (error) => {
 	
 	const original = error.config;
-
-	console.error("API Error :", {
-		url: original?.url,
-		method: original?.method,
-		status: error.response?.status,	
-		data: error.response?.data,
-	});
+	
+	if (import.meta.env.DEV) {
+		
+		console.error("API Error :", {
+			url: original?.url,
+			method: original?.method,
+			status: error.response?.status,	
+			data: error.response?.data,
+		});
+	}
 
 	const skipRefreshUrls = ['/auth/login', '/auth/register', '/auth/refresh-token', '/auth/logout'];
 
@@ -73,7 +76,9 @@ API.interceptors.response.use(res => {
 		} catch (refreshError) {
 	
 			triggerLogout();
-			console.error("Token refresh failed. Redirecting to login.", refreshError);
+			if (import.meta.env.DEV) {
+				console.error("Token refresh failed. Redirecting to login.", refreshError);
+			}
 			return Promise.reject(refreshError);
 		}
 	}
