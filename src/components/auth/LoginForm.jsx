@@ -8,12 +8,14 @@ const LoginForm = forwardRef(({ onSubmit, onError, loading }, ref ) => {
 		{
 			name: "identity",
 			label: "E-mail",
-			type: "email"
+			type: "email",
+			autoComplete: "email"
 		},
 		{
 			name: "password",
 			label: "Password",
-			type: "password"
+			type: "password",
+			autoComplete: "current-password"
 		}
 	];
 

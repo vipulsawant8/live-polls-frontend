@@ -12,12 +12,14 @@ const RegisterForm = ({ onSubmit, onError, loading, ref }) => {
 			{
 				name: "email",
 				label: "E-mail",
-				type: "email"
+				type: "email",
+				autoComplete: "email"
 			},
 			{
 				name: "password",
 				label: "Password",
-				type: "password"
+				type: "password",
+				autoComplete: "new-password"
 			}
 		];
 	
