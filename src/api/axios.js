@@ -55,6 +55,11 @@ API.interceptors.response.use(res => {
 		});
 	}
 
+	if (error.code === "ERR_NETWORK") {
+
+		notify.warn("Back-end is down", { position: "top-center", autoClose: 2000, hideProgressBar: true });
+	}
+	
 	const skipRefreshUrls = ['/auth/login', '/auth/register', '/auth/refresh-token', '/auth/logout'];
 
 	const isSkipRefresh = skipRefreshUrls.some(url => original.url.includes(url));
