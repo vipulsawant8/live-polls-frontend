@@ -8,6 +8,7 @@ const InputText = ({ field, register }) => {
 				type={field.type} 
 				placeholder={field.placeholder}
 				id={field.name}
+				autoComplete={field.autoComplete}
 				{...register(field.name)} />
 		</>
 	);	
