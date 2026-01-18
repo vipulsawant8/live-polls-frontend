@@ -51,7 +51,7 @@ const SinglePollPage = () => {
 
 		try {
 			const poll = await dispatch(closePoll(id)).unwrap();
-			notify.success(`Poll titled ${selectedPoll.title} closed`);
+			notify.success(`Poll "${selectedPoll.title}" closed`);
 
 		} catch (error) {
 			

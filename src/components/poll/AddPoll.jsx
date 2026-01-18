@@ -41,12 +41,12 @@ const AddPoll = ({ show, onHide, ref }) => {
 
 			const options = data.options.split("\n").map(s => s.trim()).filter(Boolean);
 			await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
-			notify.success(`Poll titled ${data.title} added`);
+			notify.success(`Poll "${data.title}" added`);
 			ref.current.resetForm();
 			onHide();
 		} catch (error) {
 
-			console.log("error :", error);
+			// console.log("error :", error);
 			notify.error(error);
 		}
 	};

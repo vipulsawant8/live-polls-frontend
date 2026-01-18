@@ -1,6 +1,10 @@
 import axios from "axios";
 import { triggerLogout } from "@/app/logoutHandler.js";
 
+import { getDeviceId } from "../utils/deviceId.js";
+
+const deviceId = getDeviceId();
+
 const API = axios.create({
 	
 	baseURL: import.meta.env.VITE_API_URL,
@@ -75,7 +79,7 @@ API.interceptors.response.use(res => {
 
 		try {
 			
-			await API.get('/auth/refresh-token');
+			await API.post('/auth/refresh-token', { deviceId });
 
 			return API(original);
 		} catch (refreshError) {
