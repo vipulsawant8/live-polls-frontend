@@ -19,51 +19,41 @@ The frontend is designed to stay UI-focused, with security and session handling 
 
 Key responsibilities:
 
-- Rendering authenticated and public views
-
-- Managing global UI state using Redux Toolkit
-
-- Coordinating API calls and socket events
-
-- Handling real-time vote updates via WebSockets
-
-- Handling session expiry and forced logout gracefully
-
-Authentication secrets are never stored on the client.
+- Rendering authenticated and public views.
+- Managing global UI state using Redux Toolkit.
+- Coordinating API calls and socket events.
+- Handling real-time vote updates via WebSockets.
+- Handling session expiry and forced logout gracefully.
+- Ensuring authentication secrets are never stored on the client.
 
 ## Authentication & Session Handling
 
-This frontend uses a cookie-based session model provided by the backend.
+This frontend integrates with a **cookie-based authentication system with refresh token rotation** provided by the backend.
 
 ### Key characteristics
 
-- Tokens are stored in HTTP-only cookies (server-managed)
-
-- Redux stores user identity and auth state only
-
+- Tokens are stored in **HTTP-only cookies** (server-managed)
 - No access or refresh tokens are stored in localStorage or Redux
+- Redux stores only user identity and authentication state
+- A persistent `deviceId` is generated client-side to support secure multi-device sessions
 
 ### Session lifecycle
 
-1. On app load, auth state is restored via /auth/me
-
+1. On application load, authentication state is restored via `/auth/me`
 2. Protected routes are guarded using layout-based access control
-
-3. Axios interceptors automatically retry requests after token refresh
-
-4. If refresh fails, the user is logged out globally
+3. Axios interceptors automatically attempt token refresh on `401` responses from protected endpoints
+4. Failed refresh triggers a **global logout**
+5. Requests are retried **once** after a successful refresh to prevent loops
 
 ## Real-Time Poll Updates
 
 This application uses Socket.IO for real-time behavior.
 
 - Users receive live vote updates without refreshing
-
 - Poll results update instantly across connected clients
-
 - Socket logic is isolated in a dedicated socket/ module
-
 - Socket lifecycle is managed using a SocketProvider
+- All vote validation and persistence is handled by the backend; sockets are used only for broadcasting updates.
 
 This allows stateless REST APIs to coexist with real-time UI updates.
 
@@ -77,34 +67,25 @@ Routing is layout-driven, not page-driven.
 
 /polls
  └── AuthLayout (protected)
-     └── PollsListPage
-	 └── SinglePollPage
+     ├── PollsListPage
+     └── SinglePollPage
 ```
 
 ## Design decisions
 
 - Public and authenticated routes are structurally separated
-
 - Auth checks live in layouts, not inside pages
-
 - Pages remain focused on rendering and interaction logic
-
 - Route-level lazy loading improves performance
 
 ## Features
 
 - Login / register / logout flow
-
 - Protected routes using layout guards
-
 - Create and view polls
-
 - Cast votes on polls
-
 - Real-time vote count updates
-
 - Centralized toast notifications
-
 - Reusable form system
 
 ## Demo Environment (For Reviewers)
@@ -112,11 +93,8 @@ Routing is layout-driven, not page-driven.
 To simplify evaluation:
 
 - Demo accounts may be used for testing
-
-- All boards, lists, and tasks are fictional
-
+- All polls & options are fictional
 - No real user or production data is stored
-
 - Demo data may reset periodically
 
 This environment exists only for UI and UX evaluation.
@@ -124,18 +102,7 @@ This environment exists only for UI and UX evaluation.
 A demo account is provided:
 
 - **Email:** demo.user@polls.test
-
 - **Password:** Demo@1234
-
-⚠️ Important
-
-- All notes are fictional
-
-- Demo data uses fictional characters and placeholders
-
-- No real user data is stored or displayed
-
-- Demo environment may reset periodically
 
 Demo credentials are provided only for UI and UX evaluation.
 
@@ -180,6 +147,8 @@ src
 │   │   └── NavbarComponent.jsx
 │   └── poll
 │       └── AddPoll.jsx
+├── config
+│   └── toast.config.js
 ├── index.css
 ├── layout
 │   ├── AppLayout.jsx
@@ -206,8 +175,8 @@ src
 │   └── SocketProvider.jsx
 └── utils
     ├── asyncThunkWrapper.js
+    ├── deviceId.js
     └── notify.js
-
 ```
 
 ## Environment Configuration
@@ -230,13 +199,11 @@ No secrets are stored in the frontend.
 This frontend communicates with a separately deployed backend API.
 
 - Backend Repository: https://github.com/vipulsawant8/live-polls-backend
-
 - Backend Deployment: Render
-
-- Auth Strategy: Cookie-based sessions with automatic refresh
-
+- Auth Strategy: Cookie-based authentication with refresh token rotation
+- Session Restoration: `/auth/me`
+- Device Tracking: Client-generated `deviceId`
 - Socket.IO is used for real-time vote updates
-
 - Backend handles authentication and poll persistence
 
 ## License

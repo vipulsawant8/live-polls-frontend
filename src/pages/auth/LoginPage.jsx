@@ -34,7 +34,7 @@ const LoginPage = () => {
 
 	const handleError = (errors) => {
 
-		console.log("Login Form errors :", errors);
+		if (import.meta.env.DEV) console.log("Login Form errors :", errors);
 	};
 
 	useEffect(() => {

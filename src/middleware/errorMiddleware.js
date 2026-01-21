@@ -4,7 +4,7 @@ const errorMiddleware = (store) => (next) => (action) => {
 		return next(action);
 	} catch (error) {
 		
-		console.error("Error occurred during action processing:", {
+		if (import.meta.env.DEV) console.error("Error occurred during action processing:", {
 			action: action.type,
 			message: error.message,
 			stack: error.stack

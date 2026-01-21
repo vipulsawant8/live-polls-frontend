@@ -4,6 +4,6 @@ export const getDeviceId = () => {
 		deviceId = window.crypto.randomUUID();
 		localStorage.setItem("deviceId", deviceId);
 	}
-	console.log("Device ID :", deviceId);
+	if (import.meta.env.DEV) console.log("Device ID :", deviceId);
 	return deviceId;
 };

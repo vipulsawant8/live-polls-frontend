@@ -42,7 +42,7 @@ const CustomForm = forwardRef(
 		if (onError) {
 			onError(errors);
 		} else {
-			console.log("Form errors :", errors);
+			if (import.meta.env.DEV) console.log("Form errors :", errors);
 		}
 	};
 
