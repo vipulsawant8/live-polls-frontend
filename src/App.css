@@ -20,3 +20,16 @@
 .card:hover {
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
+.mobile-toast {
+  margin: 0;
+}
+
+/* Mobile spacing */
+@media (max-width: 768px) {
+  .mobile-toast {
+    width: auto !important;
+    margin-top: 16px !important;
+    margin-left: 16px !important;
+    margin-bottom: 16px !important;
+  }
+}
