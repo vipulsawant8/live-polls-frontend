@@ -58,8 +58,8 @@ const pollSlice = createSlice({
 			state.error = null;
 		})
 		.addCase(fetchPolls.fulfilled, (state, action) => {
-
-			pollAdapter.upsertMany(state, action.payload.data);
+			
+			pollAdapter.setAll(state, action.payload.data);
 			state.loading = false;
 		})
 		.addCase(fetchPolls.rejected, (state, action) => {
