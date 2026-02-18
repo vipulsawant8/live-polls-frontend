@@ -31,23 +31,31 @@ const pollSlice = createSlice({
 	reducers: {
 
 		socketUpdatePoll: (state, action) => {
-
 			const poll = action.payload;
-			state.selectedPoll = poll;
 			pollAdapter.upsertOne(state, poll);
 		},
+		socketClosePoll: (state, action) => {
+			const pollID = action.payload;
+			pollAdapter.upsertOne(state, {
+				id: pollID,
+				open: false
+			});
+		},
+		setMessage: (state, action) => {
+			state.message = action.payload;
+		},
 		voteAcceptedMessage: (state, action) => {
-
 			state.message = { type: "success", text: action.payload };
 		},
 		voteRejectedMessage: (state, action) => {
-
 			state.message = { type: "danger", text: action.payload };
 		},
 		clearMessage: (state, action) => {
-			
 			state.message = null;
 		},
+		selectPoll: (state, action) => {
+			state.selectedPoll = action.payload;
+		}
 	},
 	extraReducers: builder => {
 		
@@ -84,7 +92,7 @@ const pollSlice = createSlice({
 });
 
 export { fetchPolls, createPoll, getPollByID, closePoll };
-export const { socketUpdatePoll, voteAcceptedMessage, voteRejectedMessage, clearMessage } = pollSlice.actions;
+export const { socketUpdatePoll, voteAcceptedMessage, voteRejectedMessage, setMessage, clearMessage, selectPoll, socketClosePoll } = pollSlice.actions;
 export const { selectAll: selectAllPolls, selectById: selectPollByID, selectIds: selectPollIDs } = pollAdapter.getSelectors(state => state.polls);
 
 export default pollSlice.reducer;

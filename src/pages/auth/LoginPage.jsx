@@ -58,7 +58,7 @@ const LoginPage = () => {
 									onError={handleError}
 									loading={loading}
 								/>
-								<div className="mt-4"> New user? click <Link to={'/register'}> here </Link> to register.</div>
+								<div className="mt-4"> New user? click <Link to={'/register-email'}> here </Link> to register.</div>
 							{/* </CardFooter> */}
 						</CardBody>
 					</Card>

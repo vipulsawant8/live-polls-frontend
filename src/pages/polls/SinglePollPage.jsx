@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPollByID, closePoll } from "@/app/features/poll/pollSlice.js";
+import { getPollByID, closePoll, selectPoll, selectPollByID } from "@/app/features/poll/pollSlice.js";
 import { useParams } from "react-router";
 import { Button, Container, ListGroup, ListGroupItem, Spinner, Stack, Row, Col, Badge } from "react-bootstrap";
 
@@ -8,6 +8,7 @@ import { emitJoinPoll, emitLeavePoll, emitCastVote } from "@/socket/emitters.js"
 import notify from "@/utils/notify.js";
 
 import PageLoader from "@/components/common/PageLoader.jsx";
+import { emitClosePoll } from "../../socket/emitters";
 
 const SinglePollPage = () => {
 	
@@ -15,6 +16,8 @@ const SinglePollPage = () => {
 	const dispatch = useDispatch();
 
 	const { selectedPoll } = useSelector(state => state.polls);
+	const poll = useSelector((state)=>selectPollByID(state, id));
+
 	const user = useSelector(state => state.auth.user);
 
   const [isAuthor, setisAuthor] = useState(false);
@@ -22,10 +25,10 @@ const SinglePollPage = () => {
 	useEffect(() => {
 
 		if (selectedPoll) {
-			if (selectedPoll.userID === user._id) {
+			if (selectedPoll.author._id === user._id) {
 		
 				setisAuthor(true);
-			} else if (selectedPoll.userID !== user._id) {
+			} else if (selectedPoll.author._id !== user._id) {
 
 				setisAuthor(false);
 			}
@@ -33,9 +36,10 @@ const SinglePollPage = () => {
 	}, [selectedPoll]);
 
 	useEffect(() => {
+		
+		dispatch(selectPoll(poll));
 
-		dispatch(getPollByID(id));
-	}, [id]);
+	}, [id, poll]);
 
 	useEffect(() => {
 
@@ -51,10 +55,9 @@ const SinglePollPage = () => {
 
 		try {
 			const poll = await dispatch(closePoll(id)).unwrap();
-			notify.success(`Poll "${selectedPoll.title}" closed`);
-
+			notify.success(poll.data.message || `You closed Poll ${poll.data.title}" successfully`);
+			emitClosePoll(poll.data);
 		} catch (error) {
-			
 			notify.error(error);
 		}
 	};
@@ -68,7 +71,7 @@ const SinglePollPage = () => {
 				{selectedPoll.title}
 			</h5>
 
-			{ !selectedPoll.open && <Badge bg="secondary" className="mb-3 d-inline-block"> Poll Closed </Badge> }
+			{ !selectedPoll.open && <Badge bg="danger" className="mb-3 d-inline-block"> Poll Closed </Badge> }
 
 			<ListGroup className="mb-4">
 				{selectedPoll.options.map((opt) => (

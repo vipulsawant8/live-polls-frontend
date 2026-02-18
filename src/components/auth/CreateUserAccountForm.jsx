@@ -1,19 +1,13 @@
 import * as yup from "yup";
 import CustomForm from "@/components/form/CustomForm.jsx";
 
-const RegisterForm = ({ onSubmit, onError, loading, ref }) => {
+const CreateUserAccount = ({ onSubmit, onError, loading, ref }) => {
 	
 	const fields = [
 			{
 				name: "name",
 				label: "Name",
 				type: "text"
-			},
-			{
-				name: "email",
-				label: "E-mail",
-				type: "email",
-				autoComplete: "email"
 			},
 			{
 				name: "password",
@@ -25,7 +19,6 @@ const RegisterForm = ({ onSubmit, onError, loading, ref }) => {
 	
 	const schema = yup.object({
 		name: yup.string().required(),
-		email: yup.string().email().required(),
 		password: yup.string().min(6).required()
 	});
 	
@@ -33,10 +26,10 @@ const RegisterForm = ({ onSubmit, onError, loading, ref }) => {
 		ref={ref}
 		fields={fields}
 		validationSchema={schema}
-		submitLabel={loading ? "Registering..." : "Register"}
+		submitLabel={loading ? "Signing up..." : "Sign-Up"}
 		onSubmit={onSubmit}
 		onError={onError}
-		name="loginForm" /> );
+		name="CreateUserAccountForm" /> );
 };
 
-export default RegisterForm;
+export default CreateUserAccount;

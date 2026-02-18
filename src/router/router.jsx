@@ -8,7 +8,11 @@ import AuthLayout from "@/layout/AuthLayout.jsx";
 import PageLoader from "@/components/common/PageLoader.jsx";
 
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage.jsx'));
-const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage.jsx'));
+
+
+const RegisterEmailPage = lazy(() => import('@/pages/auth/RegisterEmailPage.jsx'));
+const VerifyEmailPage = lazy(() => import('@/pages/auth/VerifyEmailPage.jsx'));
+const CreateUserAccountPage = lazy(() => import('@/pages/auth/CreateUserAccountPage.jsx'));
 
 const PollListPage = lazy(() => import('@/pages/polls/PollsListPage.jsx'));
 const SinglePollPage = lazy(() => import("@/pages/polls/SinglePollPage.jsx"));
@@ -32,8 +36,16 @@ const router = createBrowserRouter([
 						element: <Suspense fallback={<PageLoader />}> <LoginPage /> </Suspense>
 					},
 					{
-						path: "register",
-						element: <Suspense fallback={<PageLoader />}> <RegisterPage /> </Suspense>
+						path: "register-email",
+						element: <Suspense fallback={<PageLoader />}> <RegisterEmailPage /> </Suspense>
+					},
+					{
+						path: "verify-email",
+						element: <Suspense fallback={<PageLoader />}> <VerifyEmailPage /> </Suspense>
+					},
+					{
+						path: "create-account",
+						element: <Suspense fallback={<PageLoader />}> <CreateUserAccountPage /> </Suspense>
 					}
 				]
 			},

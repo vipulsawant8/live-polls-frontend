@@ -1,7 +1,8 @@
 import axios from "axios";
 import { triggerLogout } from "@/app/logoutHandler.js";
 
-import { getDeviceId } from "../utils/deviceId.js";
+import notify from "@/utils/notify.js";
+import { getDeviceId } from "@/utils/deviceId.js";
 
 const deviceId = getDeviceId();
 

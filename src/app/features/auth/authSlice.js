@@ -8,7 +8,21 @@ const deviceId = getDeviceId();
 
 export const getMe = createAsyncThunk('auth/getMe', (_, thunkAPI) => asyncThunkWrapper(() => API.get('/auth/me'), thunkAPI));
 
-export const registerUser = createAsyncThunk('auth/registerUser', (userData, thunkAPI) => asyncThunkWrapper(() => API.post('/auth/register', userData), thunkAPI));
+// export const registerUser = createAsyncThunk('auth/registerUser', (userData, thunkAPI) => asyncThunkWrapper(() => API.post('/auth/register', userData), thunkAPI));
+
+export const registerEmail = createAsyncThunk('auth/registerEmail', (userData, thunkAPI) => asyncThunkWrapper(() => API.post('/auth/send-otp', userData), thunkAPI));
+
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', (userData, thunkAPI) => {
+	const state = thunkAPI.getState();
+	const email = state.auth.registration.email;
+	return asyncThunkWrapper(() => API.post('/auth/verify-otp', { ...userData, email }), thunkAPI);
+});
+
+export const createUserAccount = createAsyncThunk('auth/createUserAccount', (userData, thunkAPI) => {
+	const state = thunkAPI.getState();
+	const email = state.auth.registration.email;
+	return  asyncThunkWrapper(() => API.post('/auth/register', { ...userData, email }), thunkAPI)
+});
 
 export const loginUser = createAsyncThunk('auth/loginUser', (userData, thunkAPI) => asyncThunkWrapper(() => API.post('/auth/login', { ...userData, deviceId }), thunkAPI));
 
@@ -31,6 +45,9 @@ const authSlice = createSlice({
 		loading: false,
 		error: null,
 		isAuthenticated: false,
+		registration: {
+			email: null
+		}
 	},
 	reducers: {
 
@@ -56,17 +73,49 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload.message;
 		})
-		.addCase(registerUser.pending, (state) => {
+		.addCase(registerEmail.pending, (state) => {
+
+			state.loading = true;
+			state.error = null;
+		})
+		.addCase(registerEmail.fulfilled, (state, action) => {
+
+			state.loading = false;
+			state.error = null;
+			state.registration.email = action.meta.arg.email;
+		})
+		.addCase(registerEmail.rejected, (state, action) => {
+
+			state.loading = false;
+			state.error = action.payload.message;
+		})
+		.addCase(verifyEmail.pending, (state, action) => {
+
+			state.loading = true;
+			state.error = null;
+		})
+		.addCase(verifyEmail.fulfilled, (state, action) => {
+
+			state.loading = false;
+			state.error = null;
+		})
+		.addCase(verifyEmail.rejected, (state, action) => {
+
+			state.loading = false;
+			state.error = action.payload.message;
+		})
+		.addCase(createUserAccount.pending, (state) => {
 			
 			state.loading = true;
 			state.error = null;
 		})
-		.addCase(registerUser.fulfilled, (state, action) => {
+		.addCase(createUserAccount.fulfilled, (state, action) => {
 			
 			state.loading = false;
 			state.error = null;
+			state.registration.email = null;
 		})
-		.addCase(registerUser.rejected, (state, action) => {
+		.addCase(createUserAccount.rejected, (state, action) => {
 
 			state.loading = false;
 			state.error = action.payload.message;

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { createPoll } from "@/app/features/poll/pollSlice.js";
 
 import notify from "@/utils/notify.js";
+import { emitAddPoll } from "../../socket/emitters";
 
 const AddPoll = ({ show, onHide, ref }) => {
 	
@@ -40,10 +41,12 @@ const AddPoll = ({ show, onHide, ref }) => {
 		try {
 
 			const options = data.options.split("\n").map(s => s.trim()).filter(Boolean);
-			await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
-			notify.success(`Poll "${data.title}" added`);
+			const poll = await dispatch(createPoll({ title: data.title.trim(), options })).unwrap();
+			console.log("add-poll :", poll);
+			notify.success(poll.data.message || `You created Poll "${data.title}" successfully`);
 			ref.current.resetForm();
 			onHide();
+			emitAddPoll(poll.data);
 		} catch (error) {
 
 			// console.log("error :", error);
