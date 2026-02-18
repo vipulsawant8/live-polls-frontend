@@ -49,7 +49,7 @@ const LoginPage = () => {
 					<Card className="p-3 shadow-sm">
 						<CardBody>
 							{/* <CardHeader> */}
-								<CardTitle className="text-center h1"> <h1> Login Page </h1> </CardTitle>
+								<CardTitle className="text-center h1"> <h2> Login Page </h2> </CardTitle>
 							{/* </CardHeader> */}
 							{/* <CardFooter> */}
 								<LoginForm 

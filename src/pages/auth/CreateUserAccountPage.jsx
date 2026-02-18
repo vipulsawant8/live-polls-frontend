@@ -55,7 +55,7 @@ const CreateUserAccountPage = () => {
 			<Col xs={12} sm={10} md={6} lg={4}>
 				<Card className="p-3" style={{ backgroundColor: "#FFFFFF", boxShadow: "0 8px 24px rgba(0,0,0,0.08)", borderRadius: "8px"  }}>
 					<CardBody>
-						<CardTitle className="text-center h1"> <h1> Create Account </h1> </CardTitle>
+						<CardTitle className="text-center h1"> <h2> Create Account </h2> </CardTitle>
 						<CreateUserAccountForm 
 							ref={formRef}
 							onSubmit={handleCreateAccount}

@@ -39,7 +39,7 @@ const RegisterEmailPage = () => {
                 <Col xs={12} sm={10} md={6} lg={4}>
                     <Card className="p-3" style={{ backgroundColor: "#FFFFFF", boxShadow: "0 8px 24px rgba(0,0,0,0.08)", borderRadius: "8px" }}>
                         <CardBody>
-                            <CardTitle className="text-center h1"> <h1> Register E-Mail </h1> </CardTitle>
+                            <CardTitle className="text-center h1"> <h2> Register E-Mail </h2> </CardTitle>
                             <RegisterEmailForm 
                                 ref={formRef}
                                 onSubmit={handleRegisterEmail}
