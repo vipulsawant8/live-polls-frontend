@@ -1,5 +1,5 @@
 import POLL_EVENTS from "@/socket/events.js";
-import { socketUpdatePoll, voteAcceptedMessage, voteRejectedMessage, setMessage, socketClosePoll } from "@/app/features/poll/pollSlice.js";
+import { socketUpdatePoll, /* voteAcceptedMessage, voteRejectedMessage,*/ setMessage /*, socketClosePoll*/ } from "@/app/features/poll/pollSlice.js";
 import notify from "@/utils/notify.js";
 
 const registerPollReceivers = (socket, dispatch) => {

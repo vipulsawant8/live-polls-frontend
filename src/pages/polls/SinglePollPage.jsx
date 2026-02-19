@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPollByID, closePoll, selectPoll, selectPollByID } from "@/app/features/poll/pollSlice.js";
+import { /* getPollByID, */ closePoll, selectPoll, selectPollByID } from "@/app/features/poll/pollSlice.js";
 import { useParams } from "react-router";
-import { Button, Container, ListGroup, ListGroupItem, Spinner, Stack, Row, Col, Badge } from "react-bootstrap";
+import { Button, Container, ListGroup, ListGroupItem, /* Spinner, */ Stack, /* Row, Col, */ Badge } from "react-bootstrap";
 
 import { emitJoinPoll, emitLeavePoll, emitCastVote } from "@/socket/emitters.js";
 import notify from "@/utils/notify.js";
@@ -75,7 +75,7 @@ const SinglePollPage = () => {
 
 			<ListGroup className="mb-4">
 				{selectedPoll.options.map((opt) => (
-					<ListGroup.Item
+					<ListGroupItem
 						key={opt.optionID}
 						className="py-3">
 							<Stack
@@ -99,7 +99,7 @@ const SinglePollPage = () => {
 									</Button>
 								</Stack>
 							</Stack>
-					</ListGroup.Item>
+					</ListGroupItem>
 				))}
 			</ListGroup>
 
