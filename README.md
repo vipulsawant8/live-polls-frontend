@@ -29,6 +29,17 @@ Key responsibilities:
 ## Authentication & Session Handling
 
 This frontend integrates with a **cookie-based authentication system with refresh token rotation** provided by the backend.
+The client remains UI-focused and does not manage token storage directly.
+
+### Registration Flow
+
+New users complete a multi-step registration process:
+
+1. Submit email to receive a one-time password (OTP)
+2. Verify OTP
+3. Complete account registration
+
+All OTP validation, security checks, and account creation logic are handled exclusively by the backend.
 
 ### Key characteristics
 
@@ -62,7 +73,7 @@ This allows stateless REST APIs to coexist with real-time UI updates.
 Routing is layout-driven, not page-driven.
 
 ```bash
-/login, /register
+/login, /register, /register-email, /verify-email, /create-account
  └── PublicLayout
 
 /polls
