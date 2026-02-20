@@ -46,7 +46,7 @@ const CreateUserAccountPage = () => {
 
 		if (isAuthenticated) {
 
-			navigate('/board', { replace: true });
+			navigate('/polls', { replace: true });
 		}
 	}, [isAuthenticated]);
 

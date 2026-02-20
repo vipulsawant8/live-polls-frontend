@@ -112,7 +112,7 @@ This environment exists only for UI and UX evaluation.
 
 A demo account is provided:
 
-- **Email:** demo.user@polls.test
+- **Email:** demo.user1.chariot057@aleeas.com
 - **Password:** Demo@1234
 
 Demo credentials are provided only for UI and UX evaluation.
